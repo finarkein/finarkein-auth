@@ -1,16 +1,24 @@
 package io.finarkein.auth.oauth2;
 
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.JsonObject;
 import lombok.SneakyThrows;
 
+import java.io.IOException;
+
+/**
+ * TODO: Use refresh_token instead of `username` & `password`!
+ */
 public class UserCredentials extends AbstractScribeBased {
 
-    protected UserCredentials(AccessToken accessToken, OAuth20Service service) {
-        super(accessToken, service);
+    private final String username;
+    private final String password;
+
+    protected UserCredentials(String clientId, String clientSecret, String username, String password, AccessToken accessToken,
+                              String authServerUri, String tokenServerUri) {
+        super(accessToken, clientId, clientSecret, authServerUri, tokenServerUri);
+        this.username = username;
+        this.password = password;
     }
 
     @SneakyThrows
@@ -22,21 +30,105 @@ public class UserCredentials extends AbstractScribeBased {
         String authUri = json.get("auth_uri").getAsString();
         String tokenUri = json.get("token_uri").getAsString();
 
-        OAuth20Service service = new ServiceBuilder(clientId)
-                .apiSecret(clientSecret)
-                .build(new DefaultApi20() {
-                    @Override
-                    public String getAccessTokenEndpoint() {
-                        return tokenUri;
-                    }
+        if (clientId == null || clientSecret == null || username == null || password == null) {
+            throw new IOException(
+                    "Error reading user credential from JSON, "
+                            + " expecting 'client_id', 'client_secret', 'username' and 'password'.");
+        }
 
-                    @Override
-                    protected String getAuthorizationBaseUrl() {
-                        return authUri;
-                    }
-                });
+        return UserCredentials.newBuilder()
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setUsername(username)
+                .setPassword(password)
+                .setAuthServerUri(authUri)
+                .setTokenServerUri(tokenUri)
+                .build();
+    }
+
+    public static UserCredentials.Builder newBuilder() {
+        return new UserCredentials.Builder();
+    }
+
+    @Override
+    @SneakyThrows
+    protected AccessToken fetchToken() {
         OAuth2AccessToken token = service.getAccessTokenPasswordGrant(username, password);
-        return new UserCredentials(new AccessToken(token), service);
+        return new AccessToken(token);
+    }
+
+    public static class Builder extends FinarkeinCredentials.Builder {
+
+        private String clientId;
+        private String clientSecret;
+        private String username;
+        private String password;
+        private String authServerUri;
+        private String tokenServerUri;
+
+        protected Builder() {
+            // noop.
+        }
+
+        protected Builder(UserCredentials credentials) {
+            this.clientId = credentials.clientId();
+            this.clientSecret = credentials.clientSecret();
+            this.username = credentials.username;
+            this.password = credentials.password;
+            this.setAccessToken(credentials.getAccessToken());
+            this.authServerUri = credentials.authServerUri();
+            this.tokenServerUri = credentials.tokenServerUri();
+        }
+
+        @Override
+        public Builder setAccessToken(AccessToken token) {
+            super.setAccessToken(token);
+            return this;
+        }
+
+        public Builder setClientId(String clientId) {
+            this.clientId = clientId;
+            return this;
+        }
+
+        public Builder setClientSecret(String clientSecret) {
+            this.clientSecret = clientSecret;
+            return this;
+        }
+
+        public Builder setAuthServerUri(String authServerUri) {
+            this.authServerUri = authServerUri;
+            return this;
+        }
+
+        public Builder setTokenServerUri(String tokenServerUri) {
+            this.tokenServerUri = tokenServerUri;
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        @Override
+        public UserCredentials build() {
+            return new UserCredentials(
+                    clientId,
+                    clientSecret,
+                    username,
+                    password,
+                    getAccessToken(),
+                    authServerUri,
+                    tokenServerUri);
+        }
+
+
     }
 
 }

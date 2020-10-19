@@ -27,7 +27,7 @@ public class FinarkeinCredentials extends OAuth2Credentials {
         super(accessToken);
     }
 
-    public static FinarkeinCredentials get() {
+    public static FinarkeinCredentials get() throws IOException {
         return defaultCredentialsProvider.getDefaultCredentials();
     }
 

@@ -1,38 +1,34 @@
 package io.finarkein.auth.oauth2;
 
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.gson.JsonObject;
 import lombok.SneakyThrows;
 
+import java.io.IOException;
+
 public class ClientCredentials extends AbstractScribeBased {
 
-    protected ClientCredentials(AccessToken accessToken, OAuth20Service service) {
-        super(accessToken, service);
+    protected ClientCredentials(AccessToken accessToken, String clientId, String clientSecret, String authUri, String tokenUri) {
+        super(accessToken, clientId, clientSecret, authUri, tokenUri);
     }
 
-    @SneakyThrows
-    public static ClientCredentials fromJson(JsonObject json) {
+    public static ClientCredentials fromJson(JsonObject json) throws IOException {
         String clientId = json.get("client_id").getAsString();
         String clientSecret = json.get("client_secret").getAsString();
         String authUri = json.get("auth_uri").getAsString();
         String tokenUri = json.get("token_uri").getAsString();
-        OAuth20Service service = new ServiceBuilder(clientId)
-                .apiSecret(clientSecret)
-                .build(new DefaultApi20() {
-                    @Override
-                    public String getAccessTokenEndpoint() {
-                        return tokenUri;
-                    }
+        if (clientId == null || clientSecret == null) {
+            throw new IOException(
+                    "Error reading user credential from JSON, "
+                            + " expecting 'client_id' and 'client_secret'.");
+        }
+        return new ClientCredentials(null, clientId, clientSecret, authUri, tokenUri);
+    }
 
-                    @Override
-                    protected String getAuthorizationBaseUrl() {
-                        return authUri;
-                    }
-                });
+    @Override
+    @SneakyThrows
+    protected AccessToken fetchToken() {
         OAuth2AccessToken token = service.getAccessTokenClientCredentialsGrant();
-        return new ClientCredentials(new AccessToken(token), service);
+        return new AccessToken(token);
     }
 }
