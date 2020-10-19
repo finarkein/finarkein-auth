@@ -7,7 +7,7 @@
     <groupId>io.finarkein.auth</groupId>
     <artifactId>finarkien-auth</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.0</version>
+    <version>0.2.0-SNAPSHOT</version>
     <modules>
         <module>credentials</module>
         <module>oauth2</module>
@@ -17,6 +17,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <version.junit-jupiter>5.3.1</version.junit-jupiter>
+
+        <version.plugin-versions>2.7</version.plugin-versions>
     </properties>
 
     <dependencyManagement>
@@ -53,5 +55,25 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${version.plugin-versions}</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/finarkein/finarkein-auth</url>
+        </repository>
+    </repositories>
 
 </project>
