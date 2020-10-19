@@ -1,9 +1,9 @@
 package io.finarkein.auth.oauth2;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import io.finarkein.auth.oauth2.spi.ApiProvider;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
@@ -30,17 +30,7 @@ abstract class AbstractScribeBased extends FinarkeinCredentials {
         this.tokenServerUri = tokenServerUri;
         this.service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .build(new DefaultApi20() {
-                    @Override
-                    public String getAccessTokenEndpoint() {
-                        return tokenServerUri;
-                    }
-
-                    @Override
-                    protected String getAuthorizationBaseUrl() {
-                        return authServerUri;
-                    }
-                });
+                .build(ApiProvider.get().provide(authServerUri, tokenServerUri));
     }
 
     @Override
