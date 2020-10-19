@@ -16,11 +16,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+          server-id: github
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy
+        run: mvn deploy -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/finarkein/finarkein-auth
         env:
           GITHUB_TOKEN: ${{ github.token }}
