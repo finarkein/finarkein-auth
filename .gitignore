@@ -19,5 +19,38 @@
 *.tar.gz
 *.rar
 
+# Eclipse
+.project
+.classpath
+.settings/
+
+# IntelliJ IDEA
+.idea
+*.iml
+*.iws
+*.ipr
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Gradle
+.gradle
+!gradle-wrapper.jar
+
+# Maven
+target/
+
+# Build
+out/
+build/
+bin/
+
+# Other
+*.swp
+*.bak
+databases/
+*credentials.json
+*.db
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
