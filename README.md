@@ -7,23 +7,19 @@ Finarkein authentication client for Java.
 Simply add the required dependency to your pom.xml:
 
 ```xml
-<dependency>
-  <groupId>io.finarkein.auth</groupId>
-  <artifactId>finarkien-auth</artifactId>
-  <version>0.1.0</version>
-</dependency>
-
-<dependency>
-  <groupId>io.finarkein.auth</groupId>
-  <artifactId>finarkein-auth-credentials</artifactId>
-  <version>0.1.0</version>
-</dependency>
-
-<dependency>
-  <groupId>io.finarkein.auth</groupId>
-  <artifactId>finarkein-auth-oauth2</artifactId>
-  <version>0.1.0</version>
-</dependency>
+<dependencies>
+    <dependency>
+      <groupId>io.finarkein.auth</groupId>
+      <artifactId>finarkein-auth-credentials</artifactId>
+      <version>0.2.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>io.finarkein.auth</groupId>
+      <artifactId>finarkein-auth-oauth2</artifactId>
+      <version>0.2.0</version>
+    </dependency>
+</dependencies>
 ```
 
 If you have not configured access to Github Packages in your work environment. Please check [prerequisites](#prerequisites) section to learn more about it.
