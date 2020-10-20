@@ -1,4 +1,5 @@
-sudo: false # faster builds
+os: linux
+dist: xenial
 
 language: java
 jdk: openjdk11
@@ -15,7 +16,7 @@ deploy:
     script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true \
       -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/finarkein/finarkein-auth \
       -Prelease
-    skip_cleanup: true
+    cleanup: false
     on:
       tags: true
   - provider: script
@@ -23,9 +24,10 @@ deploy:
       -DaltReleaseDeploymentRepository=ossrh::https://oss.sonatype.org/service/local/staging/deploy/maven2 \
       -DaltSnapshotDeploymentRepository=ossrh::https://oss.sonatype.org/content/repositories/snapshots \
       -Prelease
-    skip_cleanup: true
+    cleanup: false
     on:
-      condition: branch IN (master, main, develop)
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(master|main|develop)$
 
 cache:
   directories:
