@@ -13,18 +13,13 @@ install: mvn clean package -Dgpg.skip -Dmaven.javadoc.skip=true -B -U
 
 deploy:
   - provider: script
-    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true \
-      -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/finarkein/finarkein-auth \
-      -Prelease
-    cleanup: false
+    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true DaltDeploymentRepository="github::https://maven.pkg.github.com/finarkein/finarkein-auth" -Prelease
+    skip_cleanup: true
     on:
       tags: true
   - provider: script
-    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true \
-      -DaltReleaseDeploymentRepository=ossrh::https://oss.sonatype.org/service/local/staging/deploy/maven2 \
-      -DaltSnapshotDeploymentRepository=ossrh::https://oss.sonatype.org/content/repositories/snapshots \
-      -Prelease
-    cleanup: false
+    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true -DaltReleaseDeploymentRepository="ossrh::https://oss.sonatype.org/service/local/staging/deploy/maven2" -DaltSnapshotDeploymentRepository="ossrh::https://oss.sonatype.org/content/repositories/snapshots" -Prelease
+    skip_cleanup: true
     on:
       all_branches: true
       condition: $TRAVIS_BRANCH =~ ^(master|main|develop)$
