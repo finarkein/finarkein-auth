@@ -52,6 +52,7 @@
         <version.plugin-source>3.2.1</version.plugin-source>
         <version.plugin-javadoc>3.2.0</version.plugin-javadoc>
         <version.plugin-gpg>1.6</version.plugin-gpg>
+        <version.plugin-gitflow>1.12.0</version.plugin-gitflow>
     </properties>
 
     <dependencyManagement>
@@ -149,6 +150,98 @@
                 <version>${version.plugin-versions}</version>
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.amashchenko.maven.plugin</groupId>
+                <artifactId>gitflow-maven-plugin</artifactId>
+                <version>${version.plugin-gitflow}</version>
+                <configuration>
+                    <gitFlowConfig>
+                        <productionBranch>master</productionBranch>
+                        <developmentBranch>develop</developmentBranch>
+                        <featureBranchPrefix>feature/</featureBranchPrefix>
+                        <releaseBranchPrefix>release/</releaseBranchPrefix>
+                        <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+                        <supportBranchPrefix>support/</supportBranchPrefix>
+                        <origin>origin</origin>
+                    </gitFlowConfig>
+                    <tychoBuild>false</tychoBuild>
+                    <installProject>false</installProject>
+
+                    <!-- Remote Integration -->
+                    <fetchRemote>false</fetchRemote>
+                    <pushRemote>false</pushRemote>
+
+                    <!-- feature-* goals specific -->
+                    <skipFeatureVersion>true</skipFeatureVersion>
+                    <commitDevelopmentVersionAtStart>false</commitDevelopmentVersionAtStart>
+                    <useSnapshotInRelease>true</useSnapshotInRelease>
+
+                    <!-- release-* goals specific -->
+                    <allowSnapshots>false</allowSnapshots> <!-- fails if SNAPSHOT dependency in project -->
+
+                    <!-- release & release-finish specific -->
+                    <digitsOnlyDevVersion>false</digitsOnlyDevVersion> <!-- Removes 'SNAPSHOT' from version -->
+                    <!-- versionDigitToIncrement></versionDigitToIncrement --> <!-- Last Digit if empty -->
+
+                    <!-- release-* & hotfix-* goals specific -->
+                    <skipTag>false</skipTag> <!-- tag will be created -->
+
+                    <!-- hotfix-* goals -->
+                    <useSnapshotInHotfix>true</useSnapshotInHotfix>
+
+                    <!-- hotfix-finish goal -->
+                    <!-- to allow hotfixes to very old code that are not applicable to current development -->
+                    <skipMergeDevBranch>true</skipMergeDevBranch>
+                    <skipMergeProdBranch>true</skipMergeProdBranch>
+
+                    <!-- *-finish goals specific -->
+                    <keepBranch>false</keepBranch>
+                    <skipTestProject>false</skipTestProject>
+
+                    <commitMessages>
+                        <featureStartMessage>
+                            chore: Update versions for feature (@{featureName}) branch [ci skip]
+                        </featureStartMessage>
+                        <featureFinishMessage>
+                            chore: Update versions for development branch [ci skip]
+                        </featureFinishMessage>
+
+                        <hotfixStartMessage>Update versions for hotfix @{version}</hotfixStartMessage>
+                        <hotfixFinishMessage>Update for next development version @{version}</hotfixFinishMessage>
+                        <hotfixVersionUpdateMessage>Update to hotfix version @{version}</hotfixVersionUpdateMessage>
+
+                        <releaseStartMessage>
+                            chore: update versions for release @{version} [ci skip]
+                        </releaseStartMessage>
+                        <releaseFinishMessage>
+                            chore: update to next version @{version} [ci skip]
+                        </releaseFinishMessage>
+                        <releaseVersionUpdateMessage>
+                            chore: update for next development version @{version} [ci skip]
+                        </releaseVersionUpdateMessage>
+                        <!-- Default git merge commit message will be used if left empty or undefined. -->
+                        <!-- releaseFinishMergeMessage></releaseFinishMergeMessage -->
+
+                        <tagHotfixMessage>Tag hotfix</tagHotfixMessage>
+                        <tagReleaseMessage>Tag release</tagReleaseMessage>
+
+                        <!-- Migration Note: This was called <updateDevToAvoidConflitsMessage> in version 1.11.0, but has been deprecated in favour of the correctly spelt one below. -->
+                        <updateDevToAvoidConflictsMessage>
+                            Update develop to production version to avoid merge conflicts
+                        </updateDevToAvoidConflictsMessage>
+                        <updateDevBackPreMergeStateMessage>
+                            Update develop version back to pre-merge state
+                        </updateDevBackPreMergeStateMessage>
+
+                        <updateReleaseToAvoidConflictsMessage>
+                            Update release to hotfix version to avoid merge conflicts
+                        </updateReleaseToAvoidConflictsMessage>
+                        <updateReleaseBackPreMergeStateMessage>
+                            Update release version back to pre-merge state
+                        </updateReleaseBackPreMergeStateMessage>
+                    </commitMessages>
                 </configuration>
             </plugin>
         </plugins>
