@@ -4,7 +4,7 @@ Finarkein authentication client for Java.
 
 ## Quickstart
 
-Simply add the required dependency in your `pom.xml` to fetch from [Maven Central](https://search.maven.org/search?q=io.finarkein.auth):
+Simply add the required dependency in your `pom.xml` to fetch from [Maven Central](https://search.maven.org/search?q=g:io.finarkein.auth):
 
 ```xml
 <dependencies>
