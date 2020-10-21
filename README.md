@@ -1,32 +1,30 @@
-# Finarkein Auth
+# Finarkein Auth [![Build Status](https://travis-ci.org/finarkein/finarkein-auth.svg?branch=main)](https://travis-ci.org/finarkein/finarkein-auth)
 
 Finarkein authentication client for Java.
 
 ## Quickstart
 
-Simply add the required dependency to your pom.xml:
+Simply add the required dependency in your `pom.xml` to fetch from [Maven Central](https://search.maven.org/search?q=io.finarkein.auth):
 
 ```xml
 <dependencies>
     <dependency>
       <groupId>io.finarkein.auth</groupId>
       <artifactId>finarkein-auth-credentials</artifactId>
-      <version>0.2.0</version>
+      <version>0.3.0</version>
     </dependency>
     
     <dependency>
       <groupId>io.finarkein.auth</groupId>
       <artifactId>finarkein-auth-oauth2</artifactId>
-      <version>0.2.0</version>
+      <version>0.3.0</version>
     </dependency>
 </dependencies>
 ```
 
-If you have not configured access to Github Packages in your work environment. Please check [prerequisites](#prerequisites) section to learn more about it.
+### Install from Github Packages
 
-### Prerequisites
-
-Since artifacts of this repository are published to Github Packages. To install them, you'll need to configure `~/.m2/settings.xml` with your Github's [personal access token](https://github.com/settings/tokens):
+To install these artifacts from Github Packages, you'll need to configure `~/.m2/settings.xml` with your Github's [personal access token](https://github.com/settings/tokens):
 
 ```xml
 <servers>
