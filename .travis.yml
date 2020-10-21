@@ -18,11 +18,15 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true -DaltReleaseDeploymentRepository="ossrh::https://oss.sonatype.org/service/local/staging/deploy/maven2" -DaltSnapshotDeploymentRepository="ossrh::https://oss.sonatype.org/content/repositories/snapshots" -Prelease
+    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true -DaltReleaseDeploymentRepository="ossrh::https://oss.sonatype.org/service/local/staging/deploy/maven2" -Prelease
     skip_cleanup: true
     on:
-      all_branches: true
-      condition: $TRAVIS_BRANCH =~ ^(master|main|develop)$
+      branch: main
+  - provider: script
+    script: mvn deploy -DskipTests=true -B -U -DdeployAtEnd=true -DaltSnapshotDeploymentRepository="ossrh::https://oss.sonatype.org/content/repositories/snapshots" -Prelease
+    skip_cleanup: true
+    on:
+      branch: develop
 
 cache:
   directories:

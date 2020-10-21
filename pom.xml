@@ -7,7 +7,7 @@
     <groupId>io.finarkein.auth</groupId>
     <artifactId>finarkien-auth</artifactId>
     <packaging>pom</packaging>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.0</version>
 
     <name>Finarkein Auth</name>
     <description>Auth library for Finarkein's Java API clients</description>
@@ -158,7 +158,7 @@
                 <version>${version.plugin-gitflow}</version>
                 <configuration>
                     <gitFlowConfig>
-                        <productionBranch>master</productionBranch>
+                        <productionBranch>main</productionBranch>
                         <developmentBranch>develop</developmentBranch>
                         <featureBranchPrefix>feature/</featureBranchPrefix>
                         <releaseBranchPrefix>release/</releaseBranchPrefix>
@@ -202,10 +202,10 @@
 
                     <commitMessages>
                         <featureStartMessage>
-                            chore: Update versions for feature (@{featureName}) branch [ci skip]
+                            chore: Update versions for feature (@{featureName}) branch [skip ci]
                         </featureStartMessage>
                         <featureFinishMessage>
-                            chore: Update versions for development branch [ci skip]
+                            chore: Update versions for development branch [skip ci]
                         </featureFinishMessage>
 
                         <hotfixStartMessage>Update versions for hotfix @{version}</hotfixStartMessage>
@@ -213,13 +213,13 @@
                         <hotfixVersionUpdateMessage>Update to hotfix version @{version}</hotfixVersionUpdateMessage>
 
                         <releaseStartMessage>
-                            chore: update versions for release @{version} [ci skip]
+                            chore: update versions for release @{version} [skip ci]
                         </releaseStartMessage>
                         <releaseFinishMessage>
-                            chore: update to next version @{version} [ci skip]
+                            chore: update to next version @{version} [skip ci]
                         </releaseFinishMessage>
                         <releaseVersionUpdateMessage>
-                            chore: update for next development version @{version} [ci skip]
+                            chore: update for next development version @{version} [skip ci]
                         </releaseVersionUpdateMessage>
                         <!-- Default git merge commit message will be used if left empty or undefined. -->
                         <!-- releaseFinishMergeMessage></releaseFinishMergeMessage -->
