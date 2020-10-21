@@ -6,11 +6,9 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 
-/**
- * TODO: Use refresh_token instead of `username` & `password`!
- */
 public class UserCredentials extends AbstractScribeBased {
 
+    // TODO: Use refresh_token instead of 'username' and 'password'
     private final String username;
     private final String password;
 

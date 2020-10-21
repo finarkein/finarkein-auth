@@ -14,6 +14,8 @@ public interface Clock {
     /**
      * Returns the current time in milliseconds since midnight, January 1, 1970 UTC, to match the
      * behavior of {@link System#currentTimeMillis()}.
+     *
+     * @return current time in milliseconds since epoch
      */
     long currentTimeMillis();
 
