@@ -54,7 +54,7 @@ WebClient wc = WebClient.builder()
             }
             return next.exchange(builder.build());
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to get access token for fiulx client", e);
+            throw new IllegalStateException("Failed to get access token", e);
         }
     })
     .baseUrl("https://api-base.com/")
